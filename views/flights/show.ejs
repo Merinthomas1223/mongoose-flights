@@ -1,0 +1,65 @@
+<%- include('../partials/header') %>
+
+<section id="show-page">
+  <div>Airline: <%= flight.airline %></div>
+  <br/>
+  <div>Airport: <%= flight.airport %></div>
+  <br/>
+  <div>FlightNo: <%= flight.flightNo %></div>
+  <br/>
+  <div>Depart: <%= flight.departs %></div>
+</section>
+
+<!-- new markup below -->
+<br><br><h2>Destinations</h2>
+<form id="add-destinations-form" method="POST"
+  action="/flights/<%= flight._id %>/destinations">
+  <label>Airport:
+    <select name="airport">
+      <option value="AUS">AUS</option>
+      <option value="DFW">DFW</option>
+      <option value="DEN">DEN</option>
+      <option value="LAX">LAX</option>
+      <option value="SAN">SAN</option>
+    </select>
+  </label><br>
+  <label>Arrival Date:
+    <input type="date" min= "2023-07-20"
+    max= "2024-07-20" name="arrival">
+  </label><br>
+
+  <input type="submit" value="Add Destination" >
+  
+</form>
+
+<table>
+  <% flight.destinations.forEach(destination => { %>
+    <tr>
+      <th>Destination Airport</th>
+      <td><%= destination.airport %></td>
+    </tr>
+    <tr>
+      <th>Arrival</th>
+      <td><%= destination.arrival.toLocaleString() %></td>
+    </tr>
+  <% }); %>
+  </table>
+  
+  <!-- <button> <a href="/flights/<%= flight._id %>/tickets/new">New Ticket</a></button> -->
+  <button> <a href="/views/tickets/new.ejs">New Ticket</a></button>
+
+  <section id="badge-container">
+    <% ticket.forEach(function(t) { %>
+      <article class="badge"><%= t.seat %></article>
+    <% }) %>
+  </section>
+  
+  <form id="add-ticket-form" action="/flights/<%= flight._id%>/tickets" method="POST">
+    <label>Seat:</label>
+    <input type="text" name="seat">
+    <label>Price:</label>
+    <input type="number" name="price">
+    <input type="submit" value="Add Ticket">
+  </form>
+
+<%- include('../partials/footer') %>
